@@ -108,16 +108,18 @@ final class WebVitalRepository {
 		$table = Schema::web_vitals_table( $this->wpdb );
 		$since = gmdate( 'Y-m-d', time() - ( max( 1, (int) $days ) - 1 ) * DAY_IN_SECONDS );
 
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is interpolated because identifiers cannot be parameterised; every value below is a placeholder.
 		$sql = $this->wpdb->prepare(
 			"SELECT recorded_on, lcp_ms, cls, inp_ms, ttfb_ms FROM `{$table}`
 			 WHERE field = %s AND route = %s AND recorded_on >= %s
 			 ORDER BY recorded_on ASC",
+		// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			$this->normalise_field( $field ),
 			$this->normalise_route( $route ),
 			$since
 		);
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared -- $sql was prepared on the line above.
 		$rows = $this->wpdb->get_results( $sql, ARRAY_A );
 
 		return array_map( array( $this, 'prepare_row' ), (array) $rows );
@@ -133,15 +135,17 @@ final class WebVitalRepository {
 	public function get_latest( $field, $route ) {
 		$table = Schema::web_vitals_table( $this->wpdb );
 
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is interpolated because identifiers cannot be parameterised; every value below is a placeholder.
 		$sql = $this->wpdb->prepare(
 			"SELECT recorded_on, lcp_ms, cls, inp_ms, ttfb_ms FROM `{$table}`
 			 WHERE field = %s AND route = %s
 			 ORDER BY recorded_on DESC LIMIT 1",
+		// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			$this->normalise_field( $field ),
 			$this->normalise_route( $route )
 		);
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared -- $sql was prepared on the line above.
 		$row = $this->wpdb->get_row( $sql, ARRAY_A );
 
 		return $row ? $this->prepare_row( $row ) : null;
@@ -155,7 +159,7 @@ final class WebVitalRepository {
 	public function get_routes() {
 		$table = Schema::web_vitals_table( $this->wpdb );
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- No user input in this query; the table name is the only interpolation.
 		$rows = $this->wpdb->get_col( "SELECT DISTINCT route FROM `{$table}` ORDER BY route ASC" );
 
 		return array_map( array( $this, 'normalise_route' ), (array) $rows );
@@ -173,7 +177,7 @@ final class WebVitalRepository {
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$this->wpdb->query(
-			$this->wpdb->prepare( "DELETE FROM `{$table}` WHERE recorded_on < %s", $cutoff ) // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$this->wpdb->prepare( "DELETE FROM `{$table}` WHERE recorded_on < %s", $cutoff ) // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared
 		);
 	}
 

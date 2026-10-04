@@ -192,7 +192,7 @@ final class SettingsPage {
 	 * @return void
 	 */
 	private static function number_row( $name, $label, $suffix, $current ) {
-		$id = 'speedy-sensor-' . $name;
+		$id  = 'speedy-sensor-' . $name;
 		$max = ( 'retain_scans' === $name ) ? '52' : '90';
 
 		echo '<tr><th scope="row"><label for="' . esc_attr( $id ) . '">' . esc_html( $label ) . '</label></th><td>';

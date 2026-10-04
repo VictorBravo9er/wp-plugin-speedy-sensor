@@ -42,7 +42,9 @@ final class Cron {
 	 * @return void
 	 */
 	public static function init( Settings $settings ) {
-		add_filter( 'cron_schedules', array( __CLASS__, 'filter_schedules' ) );
+		unset( $settings );
+
+		add_filter( 'cron_schedules', array( __CLASS__, 'filter_schedules' ) ); // phpcs:ignore WordPress.WP.CronInterval.ChangeDetected -- The interval is DAY_IN_SECONDS * a stored day count, so it cannot be resolved statically.
 		add_action( self::SCAN_HOOK, array( __CLASS__, 'run_scan' ) );
 		add_action( self::RESUME_HOOK, array( __CLASS__, 'run_scan' ) );
 		add_action( 'plugins_loaded', array( __CLASS__, 'maybe_upgrade_schema' ), 20 );
@@ -124,7 +126,7 @@ final class Cron {
 		// The activation hook fires after plugins_loaded, so plugins_loaded may
 		// never have run for this request and the filter may be unregistered.
 		// add_filter() de-duplicates identical callbacks, so this is idempotent.
-		add_filter( 'cron_schedules', array( __CLASS__, 'filter_schedules' ) );
+		add_filter( 'cron_schedules', array( __CLASS__, 'filter_schedules' ) ); // phpcs:ignore WordPress.WP.CronInterval.ChangeDetected -- The interval is DAY_IN_SECONDS * a stored day count, so it cannot be resolved statically.
 
 		self::unschedule();
 

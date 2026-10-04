@@ -35,10 +35,10 @@ final class Dashboard {
 			wp_die( esc_html__( 'You do not have permission to view this screen.', 'speedy-sensor' ) );
 		}
 
-		$vitals  = new WebVitalsService( $settings );
-		$series  = $vitals->series( WebVitalsService::WINDOW_DAYS, 'mobile', '/' );
-		$latest  = $vitals->latest( 'mobile', '/' );
-		$last    = $vitals->last_refresh();
+		$vitals = new WebVitalsService( $settings );
+		$series = $vitals->series( WebVitalsService::WINDOW_DAYS, 'mobile', '/' );
+		$latest = $vitals->latest( 'mobile', '/' );
+		$last   = $vitals->last_refresh();
 
 		$scans   = new ScanRepository();
 		$scan    = $scans->get_latest( ScanRepository::STATUS_COMPLETE );
@@ -58,9 +58,9 @@ final class Dashboard {
 	/**
 	 * Web Vitals status and the seven day trend.
 	 *
-	 * @param array       $series   Cached series.
-	 * @param array|null  $latest   Most recent entry.
-	 * @param int         $last     Timestamp of last refresh.
+	 * @param array      $series   Cached series.
+	 * @param array|null $latest   Most recent entry.
+	 * @param int        $last     Timestamp of last refresh.
 	 * @param Settings   $settings Settings store.
 	 * @return void
 	 */
@@ -103,18 +103,25 @@ final class Dashboard {
 
 		echo '<div class="speedy-grid">';
 
-		foreach ( array( 'lcp' => 'lcp_ms', 'cls' => 'cls', 'inp' => 'inp_ms', 'ttfb' => 'ttfb_ms' ) as $metric => $key ) {
+		foreach ( array(
+			'lcp'  => 'lcp_ms',
+			'cls'  => 'cls',
+			'inp'  => 'inp_ms',
+			'ttfb' => 'ttfb_ms',
+		) as $metric => $key ) {
 			$grade = View::grade( $metric, $latest[ $key ] );
 			$value = null === $latest[ $key ]
 				? '—'
 				: ( 'cls' === $metric ? number_format_i18n( (float) $latest[ $key ], 3 ) : number_format_i18n( (int) $latest[ $key ] ) );
 
+			// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- View::tile() escapes every argument internally.
 			echo View::tile(
 				strtoupper( $metric ),
 				$value,
 				View::grade_label( $grade ),
 				$grade
 			);
+			// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
 		echo '</div>';
@@ -166,6 +173,7 @@ final class Dashboard {
 
 		echo '<div class="speedy-grid">';
 
+		// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- View::tile() escapes every argument internally.
 		echo View::tile(
 			__( 'Database size', 'speedy-sensor' ),
 			View::bytes( isset( $metrics['db_total_bytes'] ) ? $metrics['db_total_bytes'] : 0 ),
@@ -175,14 +183,18 @@ final class Dashboard {
 				isset( $metrics['db_table_count'] ) ? (int) $metrics['db_table_count'] : 0
 			)
 		);
+		// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
 
+		// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- View::tile() escapes every argument internally.
 		echo View::tile(
 			__( 'Autoloaded options', 'speedy-sensor' ),
 			View::bytes( isset( $metrics['db_autoload_bytes'] ) ? $metrics['db_autoload_bytes'] : 0 ),
 			__( 'Loaded on every request', 'speedy-sensor' ),
 			( isset( $metrics['db_autoload_bytes'] ) && $metrics['db_autoload_bytes'] > 819200 ) ? 'poor' : ''
 		);
+		// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
 
+		// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- View::tile() escapes every argument internally.
 		echo View::tile(
 			__( 'Plugins scanned', 'speedy-sensor' ),
 			number_format_i18n( (int) $scan['plugins_total'] ),
@@ -192,13 +204,16 @@ final class Dashboard {
 				date_i18n( get_option( 'date_format' ), strtotime( (string) $scan['started_at'] . ' UTC' ) )
 			)
 		);
+		// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
 
+		// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- View::tile() escapes every argument internally.
 		echo View::tile(
 			__( 'Issues found', 'speedy-sensor' ),
 			number_format_i18n( $issues ),
 			__( 'Across all plugins', 'speedy-sensor' ),
 			$issues > 0 ? 'poor' : 'good'
 		);
+		// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		echo '</div>';
 

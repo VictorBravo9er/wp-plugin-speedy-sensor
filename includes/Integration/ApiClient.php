@@ -117,11 +117,11 @@ final class ApiClient {
 		$url = untrailingslashit( $base ) . '/' . ltrim( (string) $path, '/' );
 
 		$args = array(
-			'method'    => $method,
-			'timeout'   => self::TIMEOUT,
+			'method'      => $method,
+			'timeout'     => self::TIMEOUT,
 			'redirection' => 0,
-			'sslverify' => true,
-			'headers'   => array(
+			'sslverify'   => true,
+			'headers'     => array(
 				'Authorization' => 'Bearer ' . (string) $this->settings->get( 'api_key', '' ),
 				'Accept'        => 'application/json',
 				'Cache-Control' => 'no-cache',
@@ -167,8 +167,8 @@ final class ApiClient {
 	 * Upstream messages are never shown verbatim: they can echo the site key,
 	 * and they are written for Speedy's own support tooling, not site owners.
 	 *
-	 * @param int    $code     HTTP status code.
-	 * @param array  $response Raw response from the HTTP API.
+	 * @param int   $code     HTTP status code.
+	 * @param array $response Raw response from the HTTP API.
 	 * @return array|\WP_Error
 	 */
 	private function handle_response( $code, $response ) {

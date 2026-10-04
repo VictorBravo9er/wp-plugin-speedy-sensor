@@ -67,8 +67,8 @@ final class View {
 	 * @return string
 	 */
 	public static function overall_grade( array $values ) {
-		$order   = array( 'good', 'needs-improvement', 'poor' );
-		$worst   = '';
+		$order = array( 'good', 'needs-improvement', 'poor' );
+		$worst = '';
 
 		foreach ( $order as $grade ) {
 			foreach ( $values as $metric => $value ) {
@@ -214,10 +214,10 @@ final class View {
 			$max = $min + 1;
 		}
 
-		$count    = count( $values );
-		$step     = $count > 1 ? $width / ( $count - 1 ) : $width;
-		$coords   = array();
-		$markers  = array();
+		$count   = count( $values );
+		$step    = $count > 1 ? $width / ( $count - 1 ) : $width;
+		$coords  = array();
+		$markers = array();
 
 		foreach ( $values as $index => $value ) {
 			if ( null === $value ) {
@@ -229,7 +229,7 @@ final class View {
 
 			$coords[] = $x . ',' . $y;
 
-			$date     = isset( $points[ $index ]['date'] ) ? (string) $points[ $index ]['date'] : '';
+			$date      = isset( $points[ $index ]['date'] ) ? (string) $points[ $index ]['date'] : '';
 			$markers[] = '<circle cx="' . esc_attr( $x ) . '" cy="' . esc_attr( $y ) . '" r="2.5"><title>'
 				. esc_html( $date . ' — ' . $value ) . '</title></circle>';
 		}

@@ -133,6 +133,7 @@ final class Notices {
 	 * @return bool
 	 */
 	private function is_plugin_screen() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only screen identifier; nothing is written or deleted here.
 		if ( ! isset( $_GET['page'] ) ) {
 			return false;
 		}

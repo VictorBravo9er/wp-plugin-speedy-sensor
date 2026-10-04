@@ -73,6 +73,7 @@ final class Database {
 		echo '<h2>' . esc_html__( 'Size', 'speedy-sensor' ) . '</h2>';
 		echo '<div class="speedy-grid">';
 
+		// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- View::tile() escapes every argument internally.
 		echo View::tile(
 			__( 'Total size', 'speedy-sensor' ),
 			View::bytes( isset( $metrics['db_total_bytes'] ) ? $metrics['db_total_bytes'] : 0 ),
@@ -82,7 +83,9 @@ final class Database {
 				isset( $metrics['db_table_count'] ) ? (int) $metrics['db_table_count'] : 0
 			)
 		);
+		// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
 
+		// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- View::tile() escapes every argument internally.
 		echo View::tile(
 			__( 'Autoloaded options', 'speedy-sensor' ),
 			View::bytes( $autoload ),
@@ -93,13 +96,17 @@ final class Database {
 			),
 			$autoload > self::AUTOLOAD_WARN ? 'poor' : 'good'
 		);
+		// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
 
+		// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- View::tile() escapes every argument internally.
 		echo View::tile(
 			__( 'All options', 'speedy-sensor' ),
 			number_format_i18n( isset( $metrics['db_option_count'] ) ? $metrics['db_option_count'] : 0 ),
 			__( 'Rows in the options table', 'speedy-sensor' )
 		);
+		// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
 
+		// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- View::tile() escapes every argument internally.
 		echo View::tile(
 			__( 'Largest table', 'speedy-sensor' ),
 			View::bytes( isset( $metrics['db_largest_table_bytes'] ) ? $metrics['db_largest_table_bytes'] : 0 ),
@@ -109,6 +116,7 @@ final class Database {
 				number_format_i18n( isset( $metrics['db_largest_table_rows'] ) ? $metrics['db_largest_table_rows'] : 0 )
 			)
 		);
+		// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		echo '</div></div>';
 	}
@@ -127,25 +135,31 @@ final class Database {
 		echo '<h2>' . esc_html__( 'Temporary data', 'speedy-sensor' ) . '</h2>';
 		echo '<div class="speedy-grid">';
 
+		// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- View::tile() escapes every argument internally.
 		echo View::tile(
 			__( 'Transient records', 'speedy-sensor' ),
 			number_format_i18n( isset( $metrics['db_transient_count'] ) ? $metrics['db_transient_count'] : 0 ),
 			__( 'Cached data with a timeout', 'speedy-sensor' )
 		);
+		// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
 
+		// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- View::tile() escapes every argument internally.
 		echo View::tile(
 			__( 'Expired, not yet cleared', 'speedy-sensor' ),
 			number_format_i18n( (int) $expired ),
 			__( 'Cleared on the next request that reads them', 'speedy-sensor' ),
 			(int) $expired > 0 ? 'needs-improvement' : 'good'
 		);
+		// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
 
+		// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- View::tile() escapes every argument internally.
 		echo View::tile(
 			__( 'Orphaned records', 'speedy-sensor' ),
 			number_format_i18n( $orphaned ),
 			__( 'Timeout row missing, so they never clear', 'speedy-sensor' ),
 			$orphaned > 0 ? 'poor' : 'good'
 		);
+		// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		echo '</div>';
 

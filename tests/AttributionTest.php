@@ -11,6 +11,8 @@ use Speedy_Sensor\Scanner\Attribution;
 use WP_UnitTestCase;
 
 /**
+ * Covers plugin attribution.
+ *
  * @covers \Speedy_Sensor\Scanner\Attribution
  */
 final class AttributionTest extends WP_UnitTestCase {
@@ -23,6 +25,8 @@ final class AttributionTest extends WP_UnitTestCase {
 	private $attribution;
 
 	/**
+	 * Sets up the fixture.
+	 *
 	 * @return void
 	 */
 	public function set_up() {
@@ -114,7 +118,7 @@ final class AttributionTest extends WP_UnitTestCase {
 	 */
 	public function test_short_slugs_are_refused() {
 		$tables = array(
-			'wp_posts' => array(
+			'wp_posts'         => array(
 				'bytes' => 100,
 				'rows'  => 10,
 			),
