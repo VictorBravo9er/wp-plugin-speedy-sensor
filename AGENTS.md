@@ -4,20 +4,23 @@ WordPress plugin. Applies to every coding agent working in this repo (Cline, Cod
 
 ## Project
 
-- Plugin folder `speedy-sensor/`, bootstrap `speedy-sensor.php`, namespace `Speedy_Sensor\`, PSR-4 `includes/`.
+- The repo root **is** the plugin folder: `speedy-sensor.php` at root, PSR-4 `includes/` → `Speedy_Sensor\`, uninstall at `uninstall.php`.
 - Global prefix `speedy_sensor_`: options, transients, hooks, meta keys, REST routes, tables, CSS classes.
-- Layout: `admin/` settings + metaboxes, `public/` front-end hooks, `assets/`, `languages/` (`.pot` only, no compiled files), `tests/`.
-- Stack: TBD — fill in PHP version, Composer deps, PHPCS / PHP-CS-Fixer config, and test runner once scaffolding lands.
+- Layout: `includes/Admin/` settings + screens, `includes/Scanner/`, `includes/Integration/`, `includes/Db/`, `assets/css/`, `languages/` (`.pot` only, no compiled files), `tests/`, `bin/`.
+- There is deliberately **no `public/` directory**. This plugin is admin-only and must not touch the front end. See `systems/invariants.md`.
+- Stack: PHP `>= 7.4` at runtime, developed and linted on 8.5. **Zero runtime dependencies.** Composer is dev-only: PHPCS (WordPress + PHPCompatibilityWP) and PHPUnit 9.6 with Yoast polyfills. PSR-4 `Speedy_Sensor\` → `includes/`, `Speedy_Sensor\Tests\` → `tests/`.
+- All admin mutations are `admin-post` form posts. No JavaScript ships, so there is no REST or AJAX surface yet.
 
 ## Commands
 
 | Task | Command |
 |---|---|
-| Install | TBD |
-| Lint | TBD |
-| Format | TBD |
-| Test | TBD |
-| Build | TBD |
+| Install | `composer install` |
+| Lint | `composer lint` (phpcs) |
+| Format | `composer lint:fix` (phpcbf) |
+| Test | `composer test` (phpunit; needs `WP_TESTS_DIR` and a MySQL test database) |
+| Build | None. No build step. `.gitattributes` `export-ignore` strips dev files from a dist archive |
+| Translations | `composer pot` (`php bin/make-pot.php`, dependency free) |
 
 Nothing ships until its lint and test commands pass.
 
@@ -26,10 +29,14 @@ Nothing ships until its lint and test commands pass.
 Two directories, two purposes. Do not mix them.
 
 ### `plans/` — per-change, transient
-- One file per modification: `plans/NNNN-short-slug.md`.
-- Created **before** the change. Edited **again when the change completes** — set status, record what actually shipped, note deviations.
-- Archived or deleted once closed.
-- Holds: goal, scope, approach, files touched, verification, outcome.
+- One file per modification: `plans/NNNN-short-slug.md`. `NNNN.x-…` is reserved for verification checkpoints of a prior plan.
+- **Plan before code.** The file exists with § 1–6 filled *before* the first edit. A plan written afterwards is a changelog.
+- Edited **again when the change completes** — status set, § 5.3 *Verification Record* filled with the commands actually run and their real output, § 7 *Outcome & Deviations* filled with what shipped and what deviated.
+- Archived or deleted once closed, and removed from the tracker table.
+- `plans/README.md` is the tracker of record: progress dashboard, dependency graph, master tracker table, legends, and the template every plan file must follow.
+- Structure: `1. Problem Statement & Context`, `2. Scope`, `3. Architecture & Design` (implementation steps live here as `### Step 3.N`), `4. Files Touched`, `5. Verification Plan`, `6. Downstream Dependencies`, `7. Outcome & Deviations`.
+- Sections 1–6 are written **before** the change. § 5.3 and § 7 are written **after** it.
+- If a gate did not run, § 5.2 says so in those words. Never claim a check you did not perform.
 
 ### `systems/` — whole-system, durable
 - Describes how the plugin works, not what any one change did.

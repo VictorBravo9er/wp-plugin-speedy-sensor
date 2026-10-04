@@ -1,0 +1,16 @@
+# Keep development-only files out of distributed builds.
+# AGENTS.md requires that the shipped plugin has no runtime dependency on
+# Composer, so vendor/ is not shipped and the tooling config need not be.
+
+/.github            export-ignore
+/tests              export-ignore
+/plans              export-ignore
+/systems            export-ignore
+/bin                export-ignore
+/AGENTS.md          export-ignore
+/composer.json      export-ignore
+/composer.lock      export-ignore
+/phpcs.xml.dist     export-ignore
+/phpunit.xml.dist   export-ignore
+/.gitattributes     export-ignore
+/.gitignore         export-ignore
