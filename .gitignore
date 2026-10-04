@@ -1,0 +1,15 @@
+# Composer dependencies are dev-only and are never shipped.
+/vendor/
+composer.lock
+
+# Tooling caches
+.phpunit.result.cache
+.phpcs.cache
+.eslintcache
+
+# Editors and OS noise
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
