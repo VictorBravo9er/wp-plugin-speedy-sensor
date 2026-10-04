@@ -1,0 +1,176 @@
+/* Speedy Sensor admin styles.
+ * Everything is scoped under .speedy-* so no WordPress admin stylesheet or
+ * third party plugin style is touched. Loaded on this plugin's screens only.
+ */
+
+.speedy-wrap .speedy-subtitle {
+	color: #50575e;
+	font-size: 14px;
+	margin: -6px 0 16px;
+	max-width: 60em;
+}
+
+.speedy-card {
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	margin: 0 0 16px;
+	padding: 16px 20px 4px;
+}
+
+.speedy-card__head {
+	align-items: center;
+	display: flex;
+	gap: 12px;
+	justify-content: space-between;
+}
+
+.speedy-card h2 {
+	font-size: 15px;
+	margin: 0 0 12px;
+}
+
+.speedy-card__head h2 {
+	margin: 0;
+}
+
+.speedy-subhead {
+	color: #50575e;
+	font-size: 13px;
+	margin: 20px 0 4px;
+}
+
+.speedy-grid {
+	display: grid;
+	gap: 12px;
+	grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+	margin-bottom: 16px;
+}
+
+.speedy-tile {
+	border: 1px solid #e0e0e0;
+	border-radius: 4px;
+	padding: 10px 12px;
+}
+
+.speedy-tile__label {
+	color: #646970;
+	font-size: 11px;
+	letter-spacing: 0.04em;
+	margin: 0 0 4px;
+	text-transform: uppercase;
+}
+
+.speedy-tile__value {
+	font-size: 22px;
+	font-weight: 600;
+	line-height: 1.2;
+	margin: 0;
+}
+
+.speedy-tile__note {
+	color: #646970;
+	font-size: 12px;
+	margin: 4px 0 0;
+}
+
+.speedy-tile--good .speedy-tile__value {
+	color: #00713c;
+}
+
+.speedy-tile--needs-improvement .speedy-tile__value {
+	color: #8a6100;
+}
+
+.speedy-tile--poor .speedy-tile__value {
+	color: #b32d2e;
+}
+
+.speedy-chart {
+	background: #f6f7f7;
+	border-radius: 4px;
+	color: #2271b1;
+	height: 56px;
+	margin-bottom: 16px;
+}
+
+.speedy-chart--good {
+	color: #00713c;
+}
+
+.speedy-chart--needs-improvement {
+	color: #8a6100;
+}
+
+.speedy-chart--poor {
+	color: #b32d2e;
+}
+
+.speedy-spark {
+	display: block;
+	height: 100%;
+	width: 100%;
+}
+
+.speedy-spark circle {
+	fill: currentColor;
+}
+
+.speedy-callout {
+	background: #fcf9e8;
+	border-left: 4px solid #dba617;
+	margin: 0 0 16px;
+	padding: 10px 12px;
+}
+
+.speedy-muted {
+	color: #646970;
+	font-size: 12px;
+}
+
+.speedy-toolbar {
+	align-items: center;
+	display: flex;
+	gap: 12px;
+	margin: 0 0 16px;
+}
+
+.speedy-table td {
+	vertical-align: top;
+}
+
+.speedy-findings {
+	color: #50575e;
+	font-size: 12px;
+	margin: 0;
+}
+
+.speedy-score {
+	border-radius: 3px;
+	display: inline-block;
+	font-weight: 600;
+	min-width: 2.5em;
+	padding: 2px 6px;
+	text-align: center;
+}
+
+.speedy-score--good {
+	background: #edfaef;
+	color: #00713c;
+}
+
+.speedy-score--needs-improvement {
+	background: #fcf9e8;
+	color: #8a6100;
+}
+
+.speedy-score--poor {
+	background: #fcf0f1;
+	color: #b32d2e;
+}
+
+.speedy-form textarea {
+	display: block;
+	margin-top: 4px;
+	max-width: 40em;
+}
