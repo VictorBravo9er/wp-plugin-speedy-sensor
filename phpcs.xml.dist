@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<ruleset name="Speedy Sensor">
+	<description>Coding standards for Speedy Sensor.</description>
+
+	<file>.</file>
+
+	<exclude-pattern>/vendor/*</exclude-pattern>
+	<exclude-pattern>/node_modules/*</exclude-pattern>
+	<exclude-pattern>/languages/*</exclude-pattern>
+
+	<arg name="extensions" value="php"/>
+	<arg name="colors"/>
+	<arg name="basepath" value="."/>
+	<arg value="ps"/>
+	<arg name="parallel" value="8"/>
+
+	<rule ref="WordPress">
+		<!-- Admin-only plugin: there is no public/ layer to prefix. -->
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+	</rule>
+
+	<config name="minimum_wp_version" value="6.0"/>
+	<config name="testVersion" value="7.4-"/>
+
+	<rule ref="PHPCompatibilityWP"/>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="speedy-sensor"/>
+			</property>
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="speedy_sensor"/>
+				<element value="Speedy_Sensor"/>
+			</property>
+		</properties>
+	</rule>
+
+	<!-- Raw $wpdb is unavoidable for reporting queries; every call is
+	     prepared and the identifiers are allowlisted or interpolated only
+	     after a literal match. Inline disables are deliberate. -->
+	<rule ref="WordPress.DB.DirectDatabaseQuery">
+		<severity>3</severity>
+	</rule>
+	<rule ref="WordPress.DB.PreparedSQLPlaceholders">
+		<severity>3</severity>
+	</rule>
+</ruleset>
