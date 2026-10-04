@@ -55,12 +55,12 @@ final class PluginScanner {
 			}
 
 			$entries[] = array(
-				'plugin_file'  => (string) $file,
-				'plugin_name'  => $this->decode( isset( $data['Name'] ) ? $data['Name'] : $file ),
-				'version'      => $this->decode( isset( $data['Version'] ) ? $data['Version'] : '' ),
-				'slug'         => $this->slug_from_file( $file ),
-				'is_active'    => is_plugin_active( $file ) ? 1 : 0,
-				'is_must_use'  => 0,
+				'plugin_file' => (string) $file,
+				'plugin_name' => $this->decode( isset( $data['Name'] ) ? $data['Name'] : $file ),
+				'version'     => $this->decode( isset( $data['Version'] ) ? $data['Version'] : '' ),
+				'slug'        => $this->slug_from_file( $file ),
+				'is_active'   => is_plugin_active( $file ) ? 1 : 0,
+				'is_must_use' => 0,
 			);
 		}
 
@@ -120,6 +120,7 @@ final class PluginScanner {
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$row = $this->wpdb->get_row(
+			// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is interpolated because identifiers cannot be parameterised; every value below is a placeholder.
 			$this->wpdb->prepare(
 				"SELECT COUNT(*) AS option_count,
 					COALESCE(SUM(LENGTH(option_value)),0) AS total_bytes,
@@ -127,6 +128,7 @@ final class PluginScanner {
 				FROM `{$this->wpdb->options}` WHERE option_name LIKE %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				$like
 			),
+			// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			ARRAY_A
 		);
 
@@ -139,17 +141,19 @@ final class PluginScanner {
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$transients = (int) $this->wpdb->get_var(
+			// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is interpolated because identifiers cannot be parameterised; every value below is a placeholder.
 			$this->wpdb->prepare(
 				"SELECT COUNT(*) FROM `{$this->wpdb->options}` WHERE option_name LIKE %s OR option_name LIKE %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				$transient,
 				$timeout_prefix
 			)
+			// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		);
 
 		return array(
-			'options_count'   => (int) $row['option_count'],
-			'total_bytes'     => (int) $row['total_bytes'],
-			'autoload_bytes'  => (int) $row['autoload_bytes'],
+			'options_count'    => (int) $row['option_count'],
+			'total_bytes'      => (int) $row['total_bytes'],
+			'autoload_bytes'   => (int) $row['autoload_bytes'],
 			'transients_count' => $transients,
 		);
 	}
@@ -161,9 +165,9 @@ final class PluginScanner {
 	 */
 	private function empty_measurement() {
 		return array(
-			'options_count'   => 0,
-			'total_bytes'     => 0,
-			'autoload_bytes'  => 0,
+			'options_count'    => 0,
+			'total_bytes'      => 0,
+			'autoload_bytes'   => 0,
 			'transients_count' => 0,
 		);
 	}

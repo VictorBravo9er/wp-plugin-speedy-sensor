@@ -9,12 +9,12 @@ One file per modification. Created **before** the change, updated **again** when
 
 | Metric | Current Status |
 | :--- | :--- |
-| **Total Plans** | **2 Plans** |
-| **Done** | 2 / 2 (`100%`) |
-| **In Progress** | 0 / 2 (`0%`) |
-| **Pending** | 0 / 2 (`0%`) |
-| **Current Execution Target** | **None** — next target is the ship gate below, which has no plan file yet |
-| **Ship Gate** | 🔴 **CLOSED** — `php -l` passes, but `composer lint` and `composer test` have never been run on this machine |
+| **Total Plans** | **3 Plans** |
+| **Done** | 3 / 3 (`100%`) |
+| **In Progress** | 0 / 3 (`0%`) |
+| **Pending** | 0 / 3 (`0%`) |
+| **Current Execution Target** | **None** — next target is the ship gate below, which is still closed |
+| **Ship Gate** | 🔴 **CLOSED** — `composer lint` now passes with zero violations and PHP 7.4 compatibility is proven, but `composer test` has never run: no `mysqli`, no MySQL server, no `WP_TESTS_DIR` |
 | **System Readiness** | Plugin scaffolded end to end behind the Speedy API seam. Unverified against a real WordPress install, a real `dbDelta()` run, or a real cron tick. |
 
 ---
@@ -31,12 +31,17 @@ flowchart TD
         P02["0002: plans/ documentation standard<br/>(dashboard, tracker, dependency graph,<br/>numbered template, 0001 backfill)"]
     end
 
-    subgraph Gate["Ship Gate — not yet a plan"]
-        G01["composer install<br/>composer lint<br/>composer test<br/>WordPress + MySQL runtime check"]
+    subgraph Checkpoints["Verification Checkpoints"]
+        P01X["0001.x: lint and test gate<br/>(composer install, composer lint,<br/>composer test attempt)"]
+    end
+
+    subgraph Gate["Ship Gate — still open"]
+        G01["composer test<br/>WordPress + MySQL runtime check"]
     end
 
     P01 --> P02
-    P01 --> G01
+    P01 --> P01X
+    P01X --> G01
 ```
 
 Solid edge = the target plan must be closed before the source counts as complete.
@@ -48,8 +53,9 @@ Dashed edge (`-.->`) = soft dependency, the work can proceed without it.
 
 | Plan File | Scope & Title | Priority | Status | Progress | Verification | Notes |
 | :--- | :--- | :---: | :---: | :---: | :---: | :--- |
-| [**`0001-plugin-scaffold.md`**](./0001-plugin-scaffold.md) | Plugin scaffold and first end-to-end slice | `CRITICAL` | ✅ Done | `100%` | 🟡 Partial | 34 files `php -l` clean, `.pot` regenerated at 147 strings, PSR-4 cross-reference 25/25. PHPCS + PHPUnit written but never run — ship gate open. No REST layer and no JS shipped, both deliberate deviations. |
+| [**`0001-plugin-scaffold.md`**](./0001-plugin-scaffold.md) | Plugin scaffold and first end-to-end slice | `CRITICAL` | ✅ Done | `100%` | 🟡 Partial | 34 files `php -l` clean, `.pot` regenerated at 147 strings, PSR-4 cross-reference 25/25. Lint since verified green by checkpoint `0001.x`; PHPUnit still never run — ship gate open. No REST layer and no JS shipped, both deliberate deviations. |
 | [**`0002-plan-documentation-standard.md`**](./0002-plan-documentation-standard.md) | Standardise the `plans/` documentation format | `MEDIUM` | ✅ Done | `100%` | 🟢 Verified | Documentation only. Dashboard, dependency graph, tracker, legends, numbered template, `0001` backfill, `AGENTS.md` refresh. No PHP touched, so the ship gate is unaffected. |
+| [**`0001.x-lint-and-test-gate.md`**](./0001.x-lint-and-test-gate.md) | Lint and test gate checkpoint for `0001` | `CRITICAL` | ✅ Done | `100%` | 🟡 Partial | `composer lint` exits 0, all 305 findings cleared, PHP 7.4 floor proven. `composer test` blocked three ways (no `mysqli`, no MySQL, no test library), so the gate stays open. |
 
 ---
 
@@ -57,7 +63,8 @@ Dashed edge (`-.->`) = soft dependency, the work can proceed without it.
 
 - [x] **0001** — Scaffold the plugin: bootstrap, schema + `dbDelta`, repositories, settings layer, scanner, Speedy API seam, admin screens, cron, i18n, lint/test config, `systems/` docs.
 - [x] **0002** — Adopt the reference plan structure: dashboard, dependency graph, master tracker, numbered template, `0001` backfill, `AGENTS.md` refresh.
-- [ ] **Ship gate (unplanned)** — Install Composer, run `composer lint` and `composer test`, stand up WordPress + MySQL, exercise `dbDelta()`, a full cron scan, resume across passes, and one scan against the real Speedy API shape. Carried as a follow-up in `0001` § 6.4.
+- [x] **0001.x** — Lint and test gate checkpoint for `0001`: install Composer, run `composer lint` (305 findings cleared, exit 0), prove the PHP 7.4 floor. `composer test` blocked and recorded.
+- [ ] **Ship gate (still open)** — Install `mysqli` + MySQL/MariaDB and `WP_TESTS_DIR`, then run `composer test`; stand up WordPress, exercise `dbDelta()`, a full cron scan, resume across passes, and one scan against the real Speedy API shape. Carried as `0001.x` § 7.4 follow-ups 1-3.
 
 ---
 

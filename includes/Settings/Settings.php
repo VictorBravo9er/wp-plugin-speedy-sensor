@@ -239,7 +239,9 @@ final class Settings {
 		$root = 'speedy.site';
 		$dot  = '.' . $root;
 
-		$allowed = ( $host === $root || strlen( $host ) > strlen( $dot ) && substr( $host, -strlen( $dot ) ) === $dot );
+		$is_subdomain = ( strlen( $host ) > strlen( $dot ) && substr( $host, -strlen( $dot ) ) === $dot );
+
+		$allowed = ( $host === $root || $is_subdomain );
 
 		/**
 		 * Filters the hostnames the plugin may talk to.

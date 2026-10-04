@@ -41,6 +41,33 @@
 		</properties>
 	</rule>
 
+	<!-- PSR-4 class files are PascalCase by definition; the WordPress
+	     file-naming sniff expects hyphenated lowercase and cannot coexist with
+	     an autoloaded class map. -->
+	<rule ref="WordPress.Files.FileName.NotHyphenatedLowercase">
+		<exclude-pattern>/includes/*</exclude-pattern>
+		<exclude-pattern>/tests/*</exclude-pattern>
+	</rule>
+
+	<!-- View::tile() and View::sparkline() build finished markup and escape
+	     every argument internally (esc_html/esc_attr), so echoing their
+	     return value is safe. WPCS 3.4 cannot express that for a static
+	     method call, so each call site carries a justified inline disable. -->
+
+	<!-- bin/ and tests/ are development-only tooling and are export-ignore'd, so
+	     they never load inside WordPress. The WordPress-prefix, filesystem and
+	     nonce sniffs describe plugin runtime, which they are not part of. -->
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<exclude-pattern>/bin/*</exclude-pattern>
+		<exclude-pattern>/tests/*</exclude-pattern>
+	</rule>
+	<rule ref="WordPress.WP.AlternativeFunctions">
+		<exclude-pattern>/bin/*</exclude-pattern>
+	</rule>
+	<rule ref="WordPress.Security.NonceVerification">
+		<exclude-pattern>/tests/*</exclude-pattern>
+	</rule>
+
 	<!-- Raw $wpdb is unavoidable for reporting queries; every call is
 	     prepared and the identifiers are allowlisted or interpolated only
 	     after a literal match. Inline disables are deliberate. -->

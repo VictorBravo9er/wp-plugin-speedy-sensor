@@ -13,6 +13,8 @@ use Speedy_Sensor\Settings\Settings;
 use WP_UnitTestCase;
 
 /**
+ * Covers the Web Vitals pipeline and its view helpers.
+ *
  * @covers \Speedy_Sensor\Integration\WebVitalsService
  * @covers \Speedy_Sensor\Admin\View
  */
@@ -26,6 +28,8 @@ final class WebVitalsTest extends WP_UnitTestCase {
 	private $service;
 
 	/**
+	 * Sets up the fixture.
+	 *
 	 * @return void
 	 */
 	public function set_up() {
@@ -165,16 +169,16 @@ final class WebVitalsTest extends WP_UnitTestCase {
 	 */
 	public function provide_grades() {
 		return array(
-			'lcp fast'          => array( 'lcp', 1200, 'good' ),
-			'lcp slow'          => array( 'lcp', 3000, 'needs-improvement' ),
-			'lcp very slow'     => array( 'lcp', 5000, 'poor' ),
-			'cls small'         => array( 'cls', 0.05, 'good' ),
-			'cls large'         => array( 'cls', 0.4, 'poor' ),
-			'inp fast'          => array( 'inp', 100, 'good' ),
-			'inp slow'          => array( 'inp', 600, 'poor' ),
-			'ttfb fast'         => array( 'ttfb', 300, 'good' ),
-			'missing value'     => array( 'lcp', null, '' ),
-			'unknown metric'    => array( 'nope', 1, '' ),
+			'lcp fast'       => array( 'lcp', 1200, 'good' ),
+			'lcp slow'       => array( 'lcp', 3000, 'needs-improvement' ),
+			'lcp very slow'  => array( 'lcp', 5000, 'poor' ),
+			'cls small'      => array( 'cls', 0.05, 'good' ),
+			'cls large'      => array( 'cls', 0.4, 'poor' ),
+			'inp fast'       => array( 'inp', 100, 'good' ),
+			'inp slow'       => array( 'inp', 600, 'poor' ),
+			'ttfb fast'      => array( 'ttfb', 300, 'good' ),
+			'missing value'  => array( 'lcp', null, '' ),
+			'unknown metric' => array( 'nope', 1, '' ),
 		);
 	}
 

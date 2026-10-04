@@ -50,9 +50,9 @@ final class PluginMetricRepository {
 			return 0;
 		}
 
-		$table        = Schema::plugin_metrics_table( $this->wpdb );
-		$columns      = '(scan_id,plugin_file,plugin_name,version,is_active,is_must_use,autoload_bytes,options_count,transients_count,table_bytes,table_rows,score,findings)';
-		$written      = 0;
+		$table   = Schema::plugin_metrics_table( $this->wpdb );
+		$columns = '(scan_id,plugin_file,plugin_name,version,is_active,is_must_use,autoload_bytes,options_count,transients_count,table_bytes,table_rows,score,findings)';
+		$written = 0;
 
 		foreach ( array_chunk( $rows, self::INSERT_CHUNK ) as $chunk ) {
 			$placeholders = array();
@@ -117,7 +117,7 @@ final class PluginMetricRepository {
 			max( 0, (int) $offset )
 		);
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared -- $sql was prepared on the line above.
 		$rows = $this->wpdb->get_results( $sql, ARRAY_A );
 
 		if ( ! is_array( $rows ) ) {
@@ -138,7 +138,7 @@ final class PluginMetricRepository {
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		return (int) $this->wpdb->get_var(
-			$this->wpdb->prepare( "SELECT COUNT(*) FROM `{$table}` WHERE scan_id = %d", $scan_id ) // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$this->wpdb->prepare( "SELECT COUNT(*) FROM `{$table}` WHERE scan_id = %d", $scan_id ) // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared
 		);
 	}
 
@@ -160,7 +160,7 @@ final class PluginMetricRepository {
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$this->wpdb->query(
-			$this->wpdb->prepare( "DELETE FROM `{$table}` WHERE scan_id IN ({$formats})", $ids ) // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$this->wpdb->prepare( "DELETE FROM `{$table}` WHERE scan_id IN ({$formats})", $ids ) // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared
 		);
 	}
 

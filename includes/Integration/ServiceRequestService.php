@@ -113,22 +113,22 @@ final class ServiceRequestService {
 		$scan_id = (int) $scan['id'];
 
 		$payload = array(
-			'site_key'  => (string) $this->settings->get( 'site_key', '' ),
-			'site_url'  => home_url(),
-			'scan'      => array(
-				'id'            => $scan_id,
-				'started_at'    => (string) $scan['started_at'],
-				'plugins'       => (int) $scan['plugins_total'],
-				'issues_found'  => (int) $scan['issues_found'],
-				'duration_ms'   => (int) $scan['duration_ms'],
+			'site_key'    => (string) $this->settings->get( 'site_key', '' ),
+			'site_url'    => home_url(),
+			'scan'        => array(
+				'id'           => $scan_id,
+				'started_at'   => (string) $scan['started_at'],
+				'plugins'      => (int) $scan['plugins_total'],
+				'issues_found' => (int) $scan['issues_found'],
+				'duration_ms'  => (int) $scan['duration_ms'],
 			),
 			'environment' => array(
 				'wp_version'  => get_bloginfo( 'version' ),
 				'php_version' => PHP_VERSION,
 				'multisite'   => is_multisite(),
 			),
-			'database'   => ( new DbMetricRepository() )->get_by_scan( $scan_id ),
-			'offenders'  => $this->offenders( $scan_id ),
+			'database'    => ( new DbMetricRepository() )->get_by_scan( $scan_id ),
+			'offenders'   => $this->offenders( $scan_id ),
 		);
 
 		$note = isset( $context['note'] ) ? sanitize_text_field( (string) $context['note'] ) : '';

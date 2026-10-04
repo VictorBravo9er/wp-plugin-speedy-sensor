@@ -11,6 +11,8 @@ use Speedy_Sensor\Settings\Settings;
 use WP_UnitTestCase;
 
 /**
+ * Covers the settings store.
+ *
  * @covers \Speedy_Sensor\Settings\Settings
  */
 final class SettingsTest extends WP_UnitTestCase {
@@ -23,7 +25,7 @@ final class SettingsTest extends WP_UnitTestCase {
 	private $settings;
 
 	/**
-	 * Fresh store per test.
+	 * Sets up a fresh store.
 	 *
 	 * @return void
 	 */
@@ -139,17 +141,17 @@ final class SettingsTest extends WP_UnitTestCase {
 	 */
 	public function provide_base_urls() {
 		return array(
-			'api host'      => array( 'https://api.speedy.site', true ),
-			'apex'          => array( 'https://speedy.site', true ),
-			'subdomain'     => array( 'https://staging.speedy.site', true ),
-			'plain http'    => array( 'http://api.speedy.site', false ),
-			'other host'    => array( 'https://evil.example.com', false ),
-			'suffix trick'  => array( 'https://speedy.site.evil.com', false ),
-			'with creds'    => array( 'https://user:pass@api.speedy.site', false ),
-			'with query'    => array( 'https://api.speedy.site?a=1', false ),
-			'no host'       => array( 'https://', false ),
-			'blank'         => array( '', false ),
-			'not a url'     => array( 'api.speedy.site', false ),
+			'api host'     => array( 'https://api.speedy.site', true ),
+			'apex'         => array( 'https://speedy.site', true ),
+			'subdomain'    => array( 'https://staging.speedy.site', true ),
+			'plain http'   => array( 'http://api.speedy.site', false ),
+			'other host'   => array( 'https://evil.example.com', false ),
+			'suffix trick' => array( 'https://speedy.site.evil.com', false ),
+			'with creds'   => array( 'https://user:pass@api.speedy.site', false ),
+			'with query'   => array( 'https://api.speedy.site?a=1', false ),
+			'no host'      => array( 'https://', false ),
+			'blank'        => array( '', false ),
+			'not a url'    => array( 'api.speedy.site', false ),
 		);
 	}
 
@@ -161,7 +163,7 @@ final class SettingsTest extends WP_UnitTestCase {
 	public function test_credentials_are_stripped_to_safe_characters() {
 		$result = $this->settings->save(
 			array(
-				'api_key'  => " abc-123_XYZ.<script> ",
+				'api_key'  => ' abc-123_XYZ.<script> ',
 				'site_key' => "site 42!\n",
 			)
 		);

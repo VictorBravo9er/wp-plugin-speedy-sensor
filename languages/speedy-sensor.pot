@@ -10,19 +10,19 @@ msgstr ""
 "Language-Team: https://speedy.site/\n"
 "X-Domain: speedy-sensor\n"
 
-#: includes/Scanner/Cron.php:95
+#: includes/Scanner/Cron.php:97
 #. translators: %d: number of days between scans.
 msgctxt "%d: number of days between scans."
 msgid "Every %d days (Speedy Sensor)"
 msgstr ""
 
-#: includes/Admin/Pages/Dashboard.php:174 includes/Admin/Pages/Database.php:81
+#: includes/Admin/Pages/Dashboard.php:182 includes/Admin/Pages/Database.php:82
 #. translators: %d: number of tables.
 msgctxt "%d: number of tables."
 msgid "%d tables"
 msgstr ""
 
-#: includes/Admin/Pages/Database.php:108
+#: includes/Admin/Pages/Database.php:115
 #. translators: %s: approximate row count.
 msgctxt "%s: approximate row count."
 msgid "About %s rows"
@@ -58,13 +58,13 @@ msgctxt "%s: number of options."
 msgid "%s options in the database"
 msgstr ""
 
-#: includes/Admin/Pages/Database.php:91
+#: includes/Admin/Pages/Database.php:94
 #. translators: %s: number of options.
 msgctxt "%s: number of options."
 msgid "%s options, loaded on every request"
 msgstr ""
 
-#: includes/Admin/Pages/Dashboard.php:211
+#: includes/Admin/Pages/Dashboard.php:226
 #. translators: %s: number of orphaned transient rows.
 msgctxt "%s: number of orphaned transient rows."
 msgid "%s expired temporary records have no timeout row left. WordPress cannot clear these automatically, so they accumulate and slow every page load."
@@ -76,13 +76,13 @@ msgctxt "%s: number of records."
 msgid "%s temporary records that may never expire"
 msgstr ""
 
-#: includes/Admin/Pages/Dashboard.php:191
+#: includes/Admin/Pages/Dashboard.php:203
 #. translators: %s: scan date.
 msgctxt "%s: scan date."
 msgid "Scanned %s"
 msgstr ""
 
-#: includes/Admin/Pages/Scan.php:67
+#: includes/Admin/Pages/Scan.php:69
 #. translators: 1: plugins scanned, 2: issues found.
 msgctxt "1: plugins scanned, 2: issues found."
 msgid "%1$d plugins scanned, %2$d issues found. Last run %3$s."
@@ -94,11 +94,11 @@ msgctxt "1: required PHP version, 2: current PHP version."
 msgid "Speedy Sensor requires PHP %1$s or newer. This site runs PHP %2$s, so the plugin is inactive."
 msgstr ""
 
-#: includes/Admin/Notices.php:160
+#: includes/Admin/Notices.php:161
 msgid "A scan is already running. Try again once it finishes."
 msgstr ""
 
-#: includes/Admin/Pages/Scan.php:93
+#: includes/Admin/Pages/Scan.php:95
 msgid "A scan is running right now. Running another one would just contend for the same rows."
 msgstr ""
 
@@ -106,15 +106,15 @@ msgstr ""
 msgid "API key"
 msgstr ""
 
-#: includes/Admin/Pages/Dashboard.php:199
+#: includes/Admin/Pages/Dashboard.php:213
 msgid "Across all plugins"
 msgstr ""
 
-#: includes/Admin/Pages/Scan.php:180
+#: includes/Admin/Pages/Scan.php:182
 msgid "Active"
 msgstr ""
 
-#: includes/Admin/Notices.php:182
+#: includes/Admin/Notices.php:183
 msgid "Add your API key and site key in settings first."
 msgstr ""
 
@@ -122,7 +122,7 @@ msgstr ""
 msgid "Add your Speedy API key and site key in Speedy Sensor settings first."
 msgstr ""
 
-#: includes/Admin/Pages/Database.php:98
+#: includes/Admin/Pages/Database.php:103
 msgid "All options"
 msgstr ""
 
@@ -130,23 +130,23 @@ msgstr ""
 msgid "Allow optimisation requests"
 msgstr ""
 
-#: includes/Admin/Pages/Dashboard.php:253
+#: includes/Admin/Pages/Dashboard.php:268
 msgid "Anything Speedy should know? (optional)"
 msgstr ""
 
-#: includes/Admin/Pages/Scan.php:129
+#: includes/Admin/Pages/Scan.php:131
 msgid "Autoload"
 msgstr ""
 
-#: includes/Admin/Pages/Dashboard.php:180 includes/Admin/Pages/Database.php:87
+#: includes/Admin/Pages/Dashboard.php:190 includes/Admin/Pages/Database.php:90
 msgid "Autoloaded options"
 msgstr ""
 
-#: includes/Admin/Pages/Database.php:133
+#: includes/Admin/Pages/Database.php:142
 msgid "Cached data with a timeout"
 msgstr ""
 
-#: includes/Admin/Pages/Database.php:139
+#: includes/Admin/Pages/Database.php:150
 msgid "Cleared on the next request that reads them"
 msgstr ""
 
@@ -158,11 +158,11 @@ msgstr ""
 msgid "Database"
 msgstr ""
 
-#: includes/Admin/Pages/Dashboard.php:170
+#: includes/Admin/Pages/Dashboard.php:178
 msgid "Database size"
 msgstr ""
 
-#: includes/Admin/Pages/Database.php:137
+#: includes/Admin/Pages/Database.php:148
 msgid "Expired, not yet cleared"
 msgstr ""
 
@@ -178,7 +178,7 @@ msgstr ""
 msgid "Identifies this website within your Speedy account."
 msgstr ""
 
-#: includes/Admin/Pages/Scan.php:180
+#: includes/Admin/Pages/Scan.php:182
 msgid "Inactive"
 msgstr ""
 
@@ -186,11 +186,11 @@ msgstr ""
 msgid "Installed but not active"
 msgstr ""
 
-#: includes/Admin/Pages/Dashboard.php:155
+#: includes/Admin/Pages/Dashboard.php:162
 msgid "Internal health"
 msgstr ""
 
-#: includes/Admin/Pages/Dashboard.php:197
+#: includes/Admin/Pages/Dashboard.php:211
 msgid "Issues found"
 msgstr ""
 
@@ -198,15 +198,15 @@ msgstr ""
 msgid "Keep"
 msgstr ""
 
-#: includes/Admin/Pages/Dashboard.php:133
+#: includes/Admin/Pages/Dashboard.php:140
 msgid "Largest Contentful Paint over the last seven days"
 msgstr ""
 
-#: includes/Admin/Pages/Dashboard.php:137
+#: includes/Admin/Pages/Dashboard.php:144
 msgid "Largest Contentful Paint, last 7 days"
 msgstr ""
 
-#: includes/Admin/Pages/Database.php:104
+#: includes/Admin/Pages/Database.php:111
 msgid "Largest table"
 msgstr ""
 
@@ -214,7 +214,7 @@ msgstr ""
 msgid "Lets you hand the scan findings to Speedy from the overview screen."
 msgstr ""
 
-#: includes/Admin/Pages/Dashboard.php:182
+#: includes/Admin/Pages/Dashboard.php:192
 msgid "Loaded on every request"
 msgstr ""
 
@@ -226,7 +226,7 @@ msgstr ""
 msgid "Must be https on a speedy.site host."
 msgstr ""
 
-#: includes/Admin/Pages/Scan.php:177
+#: includes/Admin/Pages/Scan.php:179
 msgid "Must use"
 msgstr ""
 
@@ -234,7 +234,7 @@ msgstr ""
 msgid "Must-use plugin, always loaded"
 msgstr ""
 
-#: includes/Admin/Pages/Dashboard.php:231
+#: includes/Admin/Pages/Dashboard.php:246
 msgid "Need a hand?"
 msgstr ""
 
@@ -250,7 +250,7 @@ msgstr ""
 msgid "No data"
 msgstr ""
 
-#: includes/Admin/Pages/Dashboard.php:158
+#: includes/Admin/Pages/Dashboard.php:165
 msgid "No scan has completed yet."
 msgstr ""
 
@@ -262,7 +262,7 @@ msgstr ""
 msgid "No scan results yet. Run a scan to measure the database."
 msgstr ""
 
-#: includes/Admin/Pages/Scan.php:53
+#: includes/Admin/Pages/Scan.php:55
 msgid "No scan results yet. Use the button above to run one now."
 msgstr ""
 
@@ -270,19 +270,19 @@ msgstr ""
 msgid "One or more settings are not recognised and were not saved."
 msgstr ""
 
-#: includes/Admin/Notices.php:181
+#: includes/Admin/Notices.php:182
 msgid "One or more settings were not recognised and were not saved."
 msgstr ""
 
-#: includes/Admin/Pages/Scan.php:130
+#: includes/Admin/Pages/Scan.php:132
 msgid "Options"
 msgstr ""
 
-#: includes/Admin/Pages/Database.php:144
+#: includes/Admin/Pages/Database.php:157
 msgid "Orphaned records"
 msgstr ""
 
-#: includes/Admin/Pages/Database.php:154
+#: includes/Admin/Pages/Database.php:168
 msgid "Orphaned transients only disappear if the plugin that created them deletes them cleanly. Speedy can clean these up for you as part of an optimisation request."
 msgstr ""
 
@@ -294,11 +294,11 @@ msgstr ""
 msgid "Permission denied"
 msgstr ""
 
-#: includes/Admin/Pages/Scan.php:127
+#: includes/Admin/Pages/Scan.php:129
 msgid "Plugin"
 msgstr ""
 
-#: includes/Admin/Pages/Dashboard.php:187
+#: includes/Admin/Pages/Dashboard.php:199
 msgid "Plugins scanned"
 msgstr ""
 
@@ -318,19 +318,19 @@ msgstr ""
 msgid "Refresh vitals every"
 msgstr ""
 
-#: includes/Admin/Pages/Scan.php:99
+#: includes/Admin/Pages/Scan.php:101
 msgid "Release lock"
 msgstr ""
 
-#: includes/Admin/Pages/Dashboard.php:256
+#: includes/Admin/Pages/Dashboard.php:271
 msgid "Request optimisation from Speedy"
 msgstr ""
 
-#: includes/Admin/Notices.php:164
+#: includes/Admin/Notices.php:165
 msgid "Request sent. Speedy will review your site and follow up by email."
 msgstr ""
 
-#: includes/Admin/Pages/Database.php:100
+#: includes/Admin/Pages/Database.php:105
 msgid "Rows in the options table"
 msgstr ""
 
@@ -338,15 +338,15 @@ msgstr ""
 msgid "Run a scan before requesting an optimisation so there are findings to send."
 msgstr ""
 
-#: includes/Admin/Notices.php:193
+#: includes/Admin/Notices.php:194
 msgid "Run a scan first so there are findings to send."
 msgstr ""
 
-#: includes/Admin/Pages/Dashboard.php:241
+#: includes/Admin/Pages/Dashboard.php:256
 msgid "Run a scan first. Speedy needs the findings before it can help."
 msgstr ""
 
-#: includes/Admin/Pages/Scan.php:105
+#: includes/Admin/Pages/Scan.php:107
 msgid "Run scan now"
 msgstr ""
 
@@ -354,11 +354,11 @@ msgstr ""
 msgid "Save settings"
 msgstr ""
 
-#: includes/Admin/AdminMenu.php:75 includes/Admin/Pages/Scan.php:48
+#: includes/Admin/AdminMenu.php:75 includes/Admin/Pages/Scan.php:50
 msgid "Scan & Plugins"
 msgstr ""
 
-#: includes/Admin/Notices.php:158
+#: includes/Admin/Notices.php:159
 msgid "Scan complete. Results are shown below."
 msgstr ""
 
@@ -366,11 +366,11 @@ msgstr ""
 msgid "Scan every"
 msgstr ""
 
-#: includes/Admin/Notices.php:165
+#: includes/Admin/Notices.php:166
 msgid "Scan lock released."
 msgstr ""
 
-#: includes/Admin/Notices.php:159
+#: includes/Admin/Notices.php:160
 msgid "Scan paused after its time budget. It continues automatically on the next background run."
 msgstr ""
 
@@ -378,11 +378,11 @@ msgstr ""
 msgid "Scan plugins and the database"
 msgstr ""
 
-#: includes/Admin/Notices.php:161
+#: includes/Admin/Notices.php:162
 msgid "Scanning is switched off in settings."
 msgstr ""
 
-#: includes/Admin/Pages/Scan.php:133
+#: includes/Admin/Pages/Scan.php:135
 msgid "Score"
 msgstr ""
 
@@ -390,11 +390,11 @@ msgstr ""
 msgid "Security check failed"
 msgstr ""
 
-#: includes/Admin/Pages/Dashboard.php:218
+#: includes/Admin/Pages/Dashboard.php:233
 msgid "See which plugins are responsible"
 msgstr ""
 
-#: includes/Admin/Pages/Dashboard.php:247
+#: includes/Admin/Pages/Dashboard.php:262
 msgid "Send the latest scan to Speedy and a specialist will review this site and get back to you."
 msgstr ""
 
@@ -402,7 +402,7 @@ msgstr ""
 msgid "Service requests are switched off in Speedy Sensor settings."
 msgstr ""
 
-#: includes/Admin/Notices.php:192 includes/Admin/Pages/Dashboard.php:234
+#: includes/Admin/Notices.php:193 includes/Admin/Pages/Dashboard.php:249
 msgid "Service requests are switched off in settings."
 msgstr ""
 
@@ -410,7 +410,7 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: includes/Admin/Notices.php:157
+#: includes/Admin/Notices.php:158
 msgid "Settings saved."
 msgstr ""
 
@@ -430,7 +430,7 @@ msgstr ""
 msgid "Size"
 msgstr ""
 
-#: includes/Admin/Notices.php:166
+#: includes/Admin/Notices.php:167
 msgid "Something was rejected. See the message below."
 msgstr ""
 
@@ -474,7 +474,7 @@ msgstr ""
 msgid "Speedy Sensor settings"
 msgstr ""
 
-#: includes/Admin/Notices.php:189
+#: includes/Admin/Notices.php:190
 msgid "Speedy could not be reached. Check outbound HTTPS from this server."
 msgstr ""
 
@@ -482,7 +482,7 @@ msgstr ""
 msgid "Speedy could not be reached. Check the site can make outbound HTTPS requests."
 msgstr ""
 
-#: includes/Admin/Notices.php:191
+#: includes/Admin/Notices.php:192
 msgid "Speedy has no Web Vitals for this site yet. Data appears once real visitors have been measured."
 msgstr ""
 
@@ -490,15 +490,15 @@ msgstr ""
 msgid "Speedy has no record for this site yet. Add the website in your Speedy account first."
 msgstr ""
 
-#: includes/Admin/Notices.php:184
+#: includes/Admin/Notices.php:185
 msgid "Speedy has no record of this website yet. Add it in your Speedy account."
 msgstr ""
 
-#: includes/Admin/Notices.php:185 includes/Integration/ApiClient.php:194
+#: includes/Admin/Notices.php:186 includes/Integration/ApiClient.php:194
 msgid "Speedy is rate limiting this site. Try again later."
 msgstr ""
 
-#: includes/Admin/Notices.php:183
+#: includes/Admin/Notices.php:184
 msgid "Speedy rejected the API key for this site."
 msgstr ""
 
@@ -506,7 +506,7 @@ msgstr ""
 msgid "Speedy rejected the API key for this site. Check the key and site key in settings."
 msgstr ""
 
-#: includes/Admin/Notices.php:187
+#: includes/Admin/Notices.php:188
 msgid "Speedy returned an unexpected response."
 msgstr ""
 
@@ -514,31 +514,31 @@ msgstr ""
 msgid "Speedy returned an unexpected response. Check the site error log for details."
 msgstr ""
 
-#: includes/Integration/WebVitalsService.php:157
+#: includes/Integration/WebVitalsService.php:158
 msgid "Speedy returned no Web Vitals data for this site yet. Data appears once real visitors have been measured."
 msgstr ""
 
-#: includes/Admin/Notices.php:188 includes/Integration/ApiClient.php:220
+#: includes/Admin/Notices.php:189 includes/Integration/ApiClient.php:220
 msgid "Speedy sent a response that could not be read."
 msgstr ""
 
-#: includes/Admin/Pages/Scan.php:128
+#: includes/Admin/Pages/Scan.php:130
 msgid "State"
 msgstr ""
 
-#: includes/Admin/Pages/Scan.php:132
+#: includes/Admin/Pages/Scan.php:134
 msgid "Tables"
 msgstr ""
 
-#: includes/Admin/Pages/Scan.php:131
+#: includes/Admin/Pages/Scan.php:133
 msgid "Temp records"
 msgstr ""
 
-#: includes/Admin/Pages/Database.php:127
+#: includes/Admin/Pages/Database.php:135
 msgid "Temporary data"
 msgstr ""
 
-#: includes/Admin/Notices.php:180
+#: includes/Admin/Notices.php:181
 msgid "That API address was not accepted. Use an https address on a speedy.site host."
 msgstr ""
 
@@ -550,7 +550,7 @@ msgstr ""
 msgid "The Speedy API address has moved. Update it in Speedy Sensor settings."
 msgstr ""
 
-#: includes/Admin/Notices.php:186
+#: includes/Admin/Notices.php:187
 msgid "The Speedy API address has moved. Update it in settings."
 msgstr ""
 
@@ -562,27 +562,27 @@ msgstr ""
 msgid "The first scan is still in progress. Speedy Sensor continues it in the background, so you can leave this page."
 msgstr ""
 
-#: includes/Admin/Pages/Dashboard.php:261
+#: includes/Admin/Pages/Dashboard.php:276
 msgid "The request contains your WordPress and PHP versions plus the scan findings. It does not contain your API key, visitor data or any page content."
 msgstr ""
 
-#: includes/Admin/Notices.php:162
+#: includes/Admin/Notices.php:163
 msgid "The scan could not finish. Check the site error log."
 msgstr ""
 
-#: includes/Admin/Pages/Scan.php:120
+#: includes/Admin/Pages/Scan.php:122
 msgid "This scan recorded no plugin rows."
 msgstr ""
 
-#: includes/Admin/Pages/Database.php:146
+#: includes/Admin/Pages/Database.php:159
 msgid "Timeout row missing, so they never clear"
 msgstr ""
 
-#: includes/Admin/Pages/Database.php:77
+#: includes/Admin/Pages/Database.php:78
 msgid "Total size"
 msgstr ""
 
-#: includes/Admin/Pages/Database.php:131
+#: includes/Admin/Pages/Database.php:140
 msgid "Transient records"
 msgstr ""
 
@@ -590,15 +590,15 @@ msgstr ""
 msgid "Web Vitals"
 msgstr ""
 
-#: includes/Admin/Notices.php:163
+#: includes/Admin/Notices.php:164
 msgid "Web Vitals refreshed from Speedy."
 msgstr ""
 
-#: includes/Integration/WebVitalsService.php:135
+#: includes/Integration/WebVitalsService.php:136
 msgid "Web Vitals reporting is switched off in Speedy Sensor settings."
 msgstr ""
 
-#: includes/Admin/Notices.php:190
+#: includes/Admin/Notices.php:191
 msgid "Web Vitals reporting is switched off in settings."
 msgstr ""
 
@@ -606,7 +606,7 @@ msgstr ""
 msgid "What runs in the background"
 msgstr ""
 
-#: includes/Admin/Pages/Scan.php:134
+#: includes/Admin/Pages/Scan.php:136
 msgid "Why"
 msgstr ""
 
@@ -614,7 +614,7 @@ msgstr ""
 msgid "You do not have permission to manage Speedy Sensor settings."
 msgstr ""
 
-#: includes/Admin/Pages/Dashboard.php:35 includes/Admin/Pages/Database.php:41 includes/Admin/Pages/Scan.php:40 includes/Admin/Pages/SettingsPage.php:32
+#: includes/Admin/Pages/Dashboard.php:35 includes/Admin/Pages/Database.php:41 includes/Admin/Pages/Scan.php:42 includes/Admin/Pages/SettingsPage.php:32
 msgid "You do not have permission to view this screen."
 msgstr ""
 

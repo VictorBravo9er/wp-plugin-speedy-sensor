@@ -92,26 +92,30 @@ final class DatabaseScanner {
 			$this->wpdb->prepare( 'SELECT COUNT(*) FROM `' . $this->wpdb->options . '`' ) // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		);
 
-		$transient       = $this->wpdb->esc_like( '_transient_' ) . '%';
-		$timeout         = $this->wpdb->esc_like( '_transient_timeout_' ) . '%';
+		$transient = $this->wpdb->esc_like( '_transient_' ) . '%';
+		$timeout   = $this->wpdb->esc_like( '_transient_timeout_' ) . '%';
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$metrics['db_transient_count'] = (int) $this->wpdb->get_var(
+			// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is interpolated because identifiers cannot be parameterised; every value below is a placeholder.
 			$this->wpdb->prepare(
 				"SELECT COUNT(*) FROM `{$this->wpdb->options}`
 				 WHERE option_name LIKE %s AND option_name NOT LIKE %s",
 				$transient,
 				$timeout
 			)
+			// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		);
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$metrics['db_expired_transient_count'] = (int) $this->wpdb->get_var(
+			// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is interpolated because identifiers cannot be parameterised; every value below is a placeholder.
 			$this->wpdb->prepare(
 				"SELECT COUNT(*) FROM `{$this->wpdb->options}`
 				 WHERE option_name LIKE %s AND CAST(option_value AS UNSIGNED) < UNIX_TIMESTAMP()",
 				$timeout
 			)
+			// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		);
 
 		$metrics['db_orphaned_transient_count'] = $this->count_orphaned_transients();
@@ -140,6 +144,7 @@ final class DatabaseScanner {
 	public function table_inventory() {
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$rows = $this->wpdb->get_results(
+			// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is interpolated because identifiers cannot be parameterised; every value below is a placeholder.
 			$this->wpdb->prepare(
 				'SELECT TABLE_NAME,
 					COALESCE(DATA_LENGTH,0) + COALESCE(INDEX_LENGTH,0) AS bytes,
@@ -147,6 +152,7 @@ final class DatabaseScanner {
 				 FROM information_schema.TABLES WHERE TABLE_SCHEMA = %s',
 				DB_NAME
 			),
+			// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			ARRAY_A
 		);
 
@@ -211,10 +217,12 @@ final class DatabaseScanner {
 	private function autoload_totals() {
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$row = $this->wpdb->get_row(
+			// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is interpolated because identifiers cannot be parameterised; every value below is a placeholder.
 			$this->wpdb->prepare(
 				"SELECT COUNT(*) AS total, COALESCE(SUM(LENGTH(option_value)),0) AS bytes
 				 FROM `{$this->wpdb->options}` WHERE autoload IN (" . self::AUTOLOAD_VALUES . ')' // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			),
+			// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			ARRAY_A
 		);
 
@@ -234,6 +242,7 @@ final class DatabaseScanner {
 	private function count_orphaned_transients() {
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		return (int) $this->wpdb->get_var(
+			// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is interpolated because identifiers cannot be parameterised; every value below is a placeholder.
 			$this->wpdb->prepare(
 				"SELECT COUNT(*) FROM `{$this->wpdb->options}` t
 				 LEFT JOIN `{$this->wpdb->options}` o
@@ -245,6 +254,7 @@ final class DatabaseScanner {
 				$this->wpdb->esc_like( '_transient_' ) . '%',
 				$this->wpdb->esc_like( '_transient_timeout_' ) . '%'
 			)
+			// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		);
 	}
 }

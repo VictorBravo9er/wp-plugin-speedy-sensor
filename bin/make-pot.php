@@ -191,9 +191,9 @@ function is_call_expression( array $tokens, int $index ): bool {
  * @return string|null
  */
 function first_string_argument( array $tokens, int $index ) {
-	$count     = count( $tokens );
-	$depth     = 0;
-	$started   = false;
+	$count   = count( $tokens );
+	$depth   = 0;
+	$started = false;
 
 	for ( $i = $index + 1; $i < $count; $i++ ) {
 		$token = $tokens[ $i ];
@@ -203,7 +203,7 @@ function first_string_argument( array $tokens, int $index ) {
 		}
 
 		if ( '(' === $token ) {
-			$depth++;
+			++$depth;
 			$started = true;
 
 			continue;
@@ -317,7 +317,7 @@ function render_pot( array $entries ): string {
 		. "\"Content-Type: text/plain; charset=UTF-8\\n\"\n"
 		. "\"Content-Transfer-Encoding: 8bit\\n\"\n"
 		. "\"Language-Team: https://speedy.site/\\n\"\n"
-		. "\"X-Domain: " . TEXT_DOMAIN . "\\n\"\n\n";
+		. '"X-Domain: ' . TEXT_DOMAIN . "\\n\"\n\n";
 
 	$out = $header;
 
@@ -329,7 +329,7 @@ function render_pot( array $entries ): string {
 		$out .= '#: ' . implode( ' ', $references ) . "\n";
 
 		if ( $is_ctx ) {
-			$out .= "#. translators: " . $parts[0] . "\n";
+			$out .= '#. translators: ' . $parts[0] . "\n";
 			$out .= 'msgctxt "' . escape_pot( $parts[0] ) . "\"\n";
 		}
 
@@ -353,4 +353,5 @@ $entries = collect_entries( $root );
 
 file_put_contents( $target, render_pot( $entries ) );
 
+// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- CLI build script writing to a terminal, never to HTML.
 printf( 'Wrote %s with %d strings.%s', $target, count( $entries ), PHP_EOL );

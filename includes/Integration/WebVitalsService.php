@@ -64,9 +64,9 @@ final class WebVitalsService {
 	/**
 	 * Constructor.
 	 *
-	 * @param Settings|null          $settings   Settings store.
+	 * @param Settings|null           $settings   Settings store.
 	 * @param WebVitalRepository|null $repository Cache.
-	 * @param ApiClient|null         $client     API client.
+	 * @param ApiClient|null          $client     API client.
 	 */
 	public function __construct( $settings = null, $repository = null, $client = null ) {
 		$this->settings   = $settings instanceof Settings ? $settings : new Settings();
@@ -81,6 +81,8 @@ final class WebVitalsService {
 	 * @return void
 	 */
 	public static function init( Settings $settings ) {
+		unset( $settings );
+
 		add_action( self::CRON_HOOK, array( __CLASS__, 'refresh_on_cron' ) );
 		add_action( 'speedy_sensor_settings_saved', array( __CLASS__, 'reschedule' ) );
 	}
@@ -125,10 +127,9 @@ final class WebVitalsService {
 	 * Fetches the report and writes it to the cache.
 	 *
 	 * @param string $field Device field.
-	 * @param string $route Route pattern.
 	 * @return array|\WP_Error Row count written, or the reason it failed.
 	 */
-	public function refresh( $field = 'mobile', $route = '/' ) {
+	public function refresh( $field = 'mobile' ) {
 		if ( ! $this->settings->get( 'vitals_enabled', true ) ) {
 			return new \WP_Error(
 				'speedy_sensor_vitals_disabled',

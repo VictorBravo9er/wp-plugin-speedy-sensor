@@ -5,8 +5,9 @@
 > **Target Subsystems**: `speedy-sensor.php`, `includes/{Install,Db,Settings,Scanner,Integration,Admin}/`, `assets/css/`, `tests/`, `systems/`
 > **Created**: 2026-04-10
 > **Completed**: 2026-04-10
-> **Verification**: 🟡 Partial — `php -l` passes, but PHPCS and PHPUnit have not been run
->   on this machine. See § 5.
+> **Verification**: 🟡 Partial — `composer lint` now passes with zero violations and PHP 7.4
+>   compatibility is proven, but `composer test` has still never run (no `mysqli`, no MySQL
+>   server, no `WP_TESTS_DIR`). See § 5 and `0001.x-lint-and-test-gate.md`.
 
 ---
 
@@ -106,17 +107,22 @@ $ # cross-reference: every class named by Plugin.php and the pages
 
 ### 5.2 Written but NOT Run
 
-- `composer lint` (phpcs) — not installed.
-- `composer test` (phpunit) — not installed, and additionally needs
-  `WP_TESTS_DIR` plus a MySQL test database.
+- `composer test` (phpunit) — BLOCKED, never executed. Verified in the
+  `0001.x-lint-and-test-gate.md` checkpoint: no WordPress test library, no
+  `mysqli`/`pdo_mysql` extension and no MySQL server, all three of which need
+  `sudo`. PHPUnit 9.6.37 itself is installed and runs.
 - No WordPress install, so nothing has been exercised against a real site,
   a real `dbDelta()` run, a real cron tick or a real HTTP response.
 
 ### 5.3 Consequences to Be Honest About
 
-- PHP 7.4 is the declared runtime floor but the only available interpreter is
-  8.5, so 8.0+ syntax would pass `php -l` unnoticed. `PHPCompatibilityWP` is
-  configured in `phpcs.xml.dist` to catch that and has not been run.
+- `composer lint` (phpcs) is no longer in this list: it was run in the
+  `0001.x-lint-and-test-gate.md` checkpoint and exits 0 with zero violations,
+  clearing all 305 findings. PHP 7.4 compatibility is therefore proven too —
+  `PHPCompatibilityWP` reports nothing against `testVersion 7.4-`.
+- `composer test` remains unrun, so the three suites (`SettingsTest`,
+  `AttributionTest`, `WebVitalsTest`) have still never executed. The ship gate
+  stays OPEN.
 - The `.pot` is verified correct by inspection and by regenerating it, but it
   has not been round-tripped through `msgfmt`.
 

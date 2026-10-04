@@ -36,6 +36,8 @@ final class Scan {
 	 * @return void
 	 */
 	public static function render( Settings $settings ) {
+		unset( $settings );
+
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( esc_html__( 'You do not have permission to view this screen.', 'speedy-sensor' ) );
 		}
@@ -206,6 +208,7 @@ final class Scan {
 	 * @return int
 	 */
 	private static function current_page() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only pagination input; nothing is written or deleted here.
 		if ( ! isset( $_GET['paged'] ) ) {
 			return 1;
 		}
@@ -232,7 +235,7 @@ final class Scan {
 
 		$base = add_query_arg(
 			array(
-				'page' => Actions::PAGE_SCAN,
+				'page'  => Actions::PAGE_SCAN,
 				'paged' => '%#%',
 			),
 			admin_url( 'admin.php' )

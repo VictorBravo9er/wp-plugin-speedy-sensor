@@ -1,6 +1,6 @@
 <?php
 /**
- * admin-post handlers for every mutation the plugin performs.
+ * Admin-post handlers for every mutation the plugin performs.
  *
  * All of them are deliberately server-rendered form posts rather than fetch
  * calls: the screens stay fully functional with JavaScript disabled, and the
@@ -212,7 +212,7 @@ final class Actions {
 	/**
 	 * Verifies the nonce, then the capability.
 	 *
-	 * wp_die() terminates, so nothing below this call can run unverified.
+	 * The wp_die() calls terminate, so nothing below this call can run unverified.
 	 *
 	 * @param string $action Nonce action.
 	 * @return void

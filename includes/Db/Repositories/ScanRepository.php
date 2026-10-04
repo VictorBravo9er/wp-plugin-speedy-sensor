@@ -52,10 +52,10 @@ final class ScanRepository {
 		$result = $this->wpdb->insert(
 			Schema::scans_table( $this->wpdb ),
 			array(
-				'started_at'     => current_time( 'mysql', true ),
-				'status'         => self::STATUS_RUNNING,
-				'plugins_total'  => 0,
-				'cursor_index'   => 0,
+				'started_at'      => current_time( 'mysql', true ),
+				'status'          => self::STATUS_RUNNING,
+				'plugins_total'   => 0,
+				'cursor_index'    => 0,
 				'plugins_scanned' => 0,
 			),
 			array( '%s', '%s', '%d', '%d', '%d' )
@@ -75,7 +75,7 @@ final class ScanRepository {
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$row = $this->wpdb->get_row(
-			$this->wpdb->prepare( "SELECT * FROM `{$table}` WHERE id = %d", $scan_id ), // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$this->wpdb->prepare( "SELECT * FROM `{$table}` WHERE id = %d", $scan_id ), // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared
 			ARRAY_A
 		);
 
@@ -93,10 +93,14 @@ final class ScanRepository {
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$row = $this->wpdb->get_row(
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- -- Table name is interpolated because identifiers cannot be parameterised; every value below is a placeholder.
+			// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is interpolated because identifiers cannot be parameterised; every value below is a placeholder.
 			$this->wpdb->prepare(
 				"SELECT * FROM `{$table}` WHERE status = %s ORDER BY id DESC LIMIT 1", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				$status
 			),
+			// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			ARRAY_A
 		);
 
@@ -142,7 +146,7 @@ final class ScanRepository {
 			array_merge(
 				$fields,
 				array(
-					'status'     => self::STATUS_COMPLETE,
+					'status'      => self::STATUS_COMPLETE,
 					'finished_at' => current_time( 'mysql', true ),
 				)
 			)
@@ -182,15 +186,19 @@ final class ScanRepository {
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$ids = $this->wpdb->get_col(
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- -- Table name is interpolated because identifiers cannot be parameterised; every value below is a placeholder.
+			// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is interpolated because identifiers cannot be parameterised; every value below is a placeholder.
 			$this->wpdb->prepare(
 				"SELECT id FROM `{$table}`
 				 WHERE status = %s AND id NOT IN (
 					SELECT id FROM (SELECT id FROM `{$table}` WHERE status = %s ORDER BY id DESC LIMIT %d) AS keep_rows
-				 )", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				 )",
 				self::STATUS_COMPLETE,
 				self::STATUS_COMPLETE,
 				$keep
 			)
+			// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		);
 
 		$clean = array();
@@ -229,7 +237,7 @@ final class ScanRepository {
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		return (int) $this->wpdb->query(
-			$this->wpdb->prepare( "DELETE FROM `{$table}` WHERE id IN ({$formats})", $ids ) // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$this->wpdb->prepare( "DELETE FROM `{$table}` WHERE id IN ({$formats})", $ids ) // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared
 		);
 	}
 
