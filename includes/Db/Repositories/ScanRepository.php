@@ -35,6 +35,18 @@ final class ScanRepository {
 	private $wpdb;
 
 	/**
+	 * Request-scoped memo of get_latest(), keyed by status.
+	 *
+	 * Static rather than per-instance because Dashboard and Notices each build
+	 * their own repository but ask for the same row on the same request. The
+	 * memo lives for one PHP request only, so there is no cross-request
+	 * staleness and nothing to expire.
+	 *
+	 * @var array<string,array|null>
+	 */
+	private static $latest_memo = array();
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct() {
@@ -44,11 +56,27 @@ final class ScanRepository {
 	}
 
 	/**
+	 * Empties the get_latest() memo.
+	 *
+	 * Called by every method that can change what get_latest() would return.
+	 * The whole memo is dropped rather than one key, because update() can move
+	 * a row from one status to another and it is cheaper to reason about a
+	 * single clear than about which key a write invalidated.
+	 *
+	 * @return void
+	 */
+	private static function flush_memo() {
+		self::$latest_memo = array();
+	}
+
+	/**
 	 * Opens a new scan run.
 	 *
 	 * @return int Inserted scan id, or 0 on failure.
 	 */
 	public function start() {
+		self::flush_memo();
+
 		$result = $this->wpdb->insert(
 			Schema::scans_table( $this->wpdb ),
 			array(
@@ -85,10 +113,19 @@ final class ScanRepository {
 	/**
 	 * Returns the most recent run with a given status.
 	 *
+	 * Served from the request memo when this status has already been read, so
+	 * Dashboard and Notices cost one query between them rather than one each.
+	 * A memoised null is a real answer meaning "no such run", so array_key_exists
+	 * is used rather than isset.
+	 *
 	 * @param string $status Status constant.
 	 * @return array|null
 	 */
 	public function get_latest( $status = self::STATUS_COMPLETE ) {
+		if ( array_key_exists( $status, self::$latest_memo ) ) {
+			return self::$latest_memo[ $status ];
+		}
+
 		$table = Schema::scans_table( $this->wpdb );
 
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
@@ -104,7 +141,9 @@ final class ScanRepository {
 			ARRAY_A
 		);
 
-		return $row ? $this->cast_row( $row ) : null;
+		self::$latest_memo[ $status ] = $row ? $this->cast_row( $row ) : null;
+
+		return self::$latest_memo[ $status ];
 	}
 
 	/**
@@ -124,6 +163,8 @@ final class ScanRepository {
 	 * @return bool
 	 */
 	public function update( $scan_id, array $fields ) {
+		self::flush_memo();
+
 		return false !== $this->wpdb->update(
 			Schema::scans_table( $this->wpdb ),
 			$fields,
@@ -219,6 +260,10 @@ final class ScanRepository {
 	 * @return int Rows deleted.
 	 */
 	public function delete_by_ids( array $ids ) {
+		// Flushed before the early return: an empty list deletes nothing, but the
+		// memo may still hold rows this request has since removed elsewhere.
+		self::flush_memo();
+
 		$ids = array_values(
 			array_filter(
 				array_map( 'intval', $ids ),

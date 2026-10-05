@@ -37,8 +37,16 @@ final class Dashboard {
 
 		$vitals = new WebVitalsService( $settings );
 		$series = $vitals->series( WebVitalsService::WINDOW_DAYS, 'mobile', '/' );
-		$latest = $vitals->latest( 'mobile', '/' );
-		$last   = $vitals->last_refresh();
+
+		// The series is ordered oldest first, so its last row is the newest
+		// entry for this field and route and get_latest() would return the same
+		// row. An empty series is the one case where it cannot: the newest cached
+		// row may predate the window, so ask the repository directly.
+		$latest = ! empty( $series )
+			? end( $series )
+			: $vitals->latest( 'mobile', '/' );
+
+		$last    = $vitals->last_refresh();
 
 		$scans   = new ScanRepository();
 		$scan    = $scans->get_latest( ScanRepository::STATUS_COMPLETE );
