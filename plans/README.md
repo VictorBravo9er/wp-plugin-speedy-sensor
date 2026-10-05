@@ -9,10 +9,10 @@ One file per modification. Created **before** the change, updated **again** when
 
 | Metric | Current Status |
 | :--- | :--- |
-| **Total Plans** | **5 Plans** |
-| **Done** | 4 / 5 (`80%`) |
-| **In Progress** | 1 / 5 (`20%`) |
-| **Pending** | 0 / 5 (`0%`) |
+| **Total Plans** | **6 Plans** |
+| **Done** | 5 / 6 (`83%`) |
+| **In Progress** | 1 / 6 (`17%`) |
+| **Pending** | 0 / 6 (`0%`) |
 | **Current Execution Target** | **None** — next target is the ship gate below, which is still closed |
 | **Ship Gate** | 🔴 **CLOSED** — `composer lint` now passes with zero violations and PHP 7.4 compatibility is proven, but `composer test` has never run: no `mysqli`, no MySQL server, no `WP_TESTS_DIR` |
 | **System Readiness** | Plugin scaffolded end to end behind the Speedy API seam. Unverified against a real WordPress install, a real `dbDelta()` run, or a real cron tick. |
@@ -35,6 +35,10 @@ flowchart TD
         P01X["0001.x: lint and test gate<br/>(composer install, composer lint,<br/>composer test attempt)"]
     end
 
+    subgraph BugFixes["Bug Fixes"]
+        P05["0005: Fix autoloader sub-namespaces<br/>(allow backslashes in PSR-4 relative class)"]
+    end
+
     subgraph Gate["Ship Gate — still open"]
         G01["composer test<br/>WordPress + MySQL runtime check"]
     end
@@ -42,6 +46,7 @@ flowchart TD
     P01 --> P02
     P01 --> P01X
     P01X --> G01
+    P01 --> P05
 ```
 
 Solid edge = the target plan must be closed before the source counts as complete.
@@ -58,7 +63,7 @@ Dashed edge (`-.->`) = soft dependency, the work can proceed without it.
 | [**`0001.x-lint-and-test-gate.md`**](./0001.x-lint-and-test-gate.md) | Lint and test gate checkpoint for `0001` | `CRITICAL` | ✅ Done | `100%` | 🟡 Partial | `composer lint` exits 0, all 305 findings cleared, PHP 7.4 floor proven. `composer test` blocked three ways (no `mysqli`, no MySQL, no test library), so the gate stays open. |
 | [**`0003-staging-zip-distribution.md`**](./0003-staging-zip-distribution.md) | Distribute a downloadable staging ZIP via a GitHub Release asset | `HIGH` | ✅ Done | `100%` | 🟡 Partial | ZIP built and structurally verified (44 entries, no dev files); blob hashes prove it came from `dev` not `main`. Release creation blocked: no `gh`, no token. No PHP touched, ship gate unaffected. |
 | [**`0004-reduce-database-work.md`**](./0004-reduce-database-work.md) | Remove duplicate `scans` reads, derive latest Web Vitals from the series, and read `information_schema` once per completing scan | `HIGH` | ◍ In Review / Verification | `90%` | 🟡 Partial | Code landed: memo on `ScanRepository`, guarded fallback in `Dashboard`, inventory forwarded to `metrics()`. 15 new tests across 3 files. Found and fixed a stale-memo bug in `delete_by_ids()`. 🗨`composer lint` and `composer test` not run - no PHP on this machine. |
-| [**`0005-fix-activation-fatal.md`**](./0005-fix-activation-fatal.md) | Fix the activation fatal caused by the autoloader rejecting every namespaced class | `CRITICAL` | ◍ In Review / Verification | `90%` | 🟡 Partial | Traversal guard rejected `'\\'`, i.e. the PSR-4 separator, so 25 of 26 classes never loaded and activation died on `Activator` not found. Guard narrowed to `.` and `/`; `AutoloaderTest` added. 🗨`composer lint` and `composer test` not run - no PHP on this machine. |
+| [**`0005-fix-autoloader-sub-namespaces.md`**](./0005-fix-autoloader-sub-namespaces.md) | Fix autoloader rejecting sub-namespaces during plugin activation and runtime | `CRITICAL` | ✅ Done | `100%` | 🟢 Verified | Removed backslash check from autoloader relative class validation; verified sub-namespace class resolution and traversal blocking. |
 
 ---
 
