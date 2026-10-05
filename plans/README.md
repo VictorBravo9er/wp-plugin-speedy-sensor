@@ -73,6 +73,7 @@ Dashed edge (`-.->`) = soft dependency, the work can proceed without it.
 - [x] **0002** — Adopt the reference plan structure: dashboard, dependency graph, master tracker, numbered template, `0001` backfill, `AGENTS.md` refresh.
 - [x] **0001.x** — Lint and test gate checkpoint for `0001`: install Composer, run `composer lint` (305 findings cleared, exit 0), prove the PHP 7.4 floor. `composer test` blocked and recorded.
 - [x] **0003** — Distribute a downloadable staging ZIP: build via `git archive` (honours `export-ignore`), verify structure and blob-hash provenance, publish as a GitHub pre-release asset. Release creation left to the operator: no `gh` and no token in this environment.
+- [ ] **0005** — Fix the activation fatal: the autoloader's traversal guard rejected backslashes, unloading every namespaced class. Guard corrected, `AutoloaderTest` added, tests still unrun.
 - [ ] **Ship gate (still open)** — Install `mysqli` + MySQL/MariaDB and `WP_TESTS_DIR`, then run `composer test`; stand up WordPress, exercise `dbDelta()`, a full cron scan, resume across passes, and one scan against the real Speedy API shape. Carried as `0001.x` § 7.4 follow-ups 1-3.
 
 ---

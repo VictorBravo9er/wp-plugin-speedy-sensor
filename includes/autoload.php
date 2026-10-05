@@ -27,8 +27,10 @@ spl_autoload_register(
 
 		$relative = substr( $class_name, $length );
 
-		// A PSR-4 name never contains a dot or a forward slash. Rejecting them
-		// here stops a malformed class name from traversing out of includes/.
+		// A PSR-4 relative name may contain backslashes — they are the
+		// namespace separator — but never a dot or a forward slash. Rejecting
+		// those two stops a malformed class name from traversing out of
+		// includes/, since '..' needs a dot to climb.
 		if ( false !== strpos( $relative, '.' ) || false !== strpos( $relative, '/' ) ) {
 			return;
 		}
