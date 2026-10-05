@@ -77,6 +77,12 @@ Table sizes are read once and matched to plugins in PHP. Reading
 `information_schema` per plugin would be the most expensive thing this plugin
 could do.
 
+That inventory is read once per **completing** scan, not once per pass.
+`ScanRunner::measure_plugins()` returns it alongside its cursor, and the
+completing pass hands it to `DatabaseScanner::metrics()`, so a scan that resumes
+on a later cron tick does not attribute plugin tables against sizes captured
+before the gap.
+
 ## Admin surface
 
 `manage_options` only. Four screens: Overview (vitals + health + escalation),

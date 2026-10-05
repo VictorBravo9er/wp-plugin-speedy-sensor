@@ -120,7 +120,11 @@ final class ScanRunner {
 				);
 			}
 
-			$this->finish( $scan );
+			// Only the completing pass forwards its inventory. A scan that
+			// resumes on a later cron tick must re-read table sizes rather
+			// than attribute plugin tables against figures captured before
+			// the gap, so a partial pass never carries one forward.
+			$this->finish( $scan, $progress['tables'] );
 
 			return array(
 				'status'  => 'complete',
@@ -162,8 +166,12 @@ final class ScanRunner {
 	/**
 	 * Measures plugins until the budget is spent or the list is exhausted.
 	 *
+	 * The table inventory it reads is returned alongside the progress figures so
+	 * the completing pass can hand it to DatabaseScanner::metrics() instead of
+	 * reading information_schema a second time.
+	 *
 	 * @param array $scan Scan row.
-	 * @return array Progress with complete, cursor and total.
+	 * @return array Progress with complete, cursor, total and tables.
 	 */
 	private function measure_plugins( array $scan ) {
 		$deadline    = microtime( true ) + ( self::BUDGET_MS / 1000 );
@@ -214,18 +222,21 @@ final class ScanRunner {
 			'complete' => $cursor >= $total,
 			'cursor'   => $cursor,
 			'total'    => $total,
+			'tables'   => $tables,
 		);
 	}
 
 	/**
 	 * Closes a completed run and prunes history.
 	 *
-	 * @param array $scan Scan row.
+	 * @param array      $scan      Scan row.
+	 * @param array|null $inventory Table inventory already read by the completing
+	 *                             pass, or null to read it here.
 	 * @return void
 	 */
-	private function finish( array $scan ) {
+	private function finish( array $scan, $inventory = null ) {
 		$scan_id = (int) $scan['id'];
-		$metrics = ( new DatabaseScanner() )->metrics();
+		$metrics = ( new DatabaseScanner() )->metrics( $inventory );
 
 		$this->db_metrics->replace_for_scan( $scan_id, $metrics );
 

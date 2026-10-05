@@ -14,3 +14,6 @@
 /phpunit.xml.dist   export-ignore
 /.gitattributes     export-ignore
 /.gitignore         export-ignore
+
+# Release notes describe the build from the outside; they are not plugin code.
+/RELEASE_NOTES_*.md  export-ignore

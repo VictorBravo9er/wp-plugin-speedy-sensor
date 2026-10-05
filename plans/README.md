@@ -9,10 +9,10 @@ One file per modification. Created **before** the change, updated **again** when
 
 | Metric | Current Status |
 | :--- | :--- |
-| **Total Plans** | **3 Plans** |
-| **Done** | 3 / 3 (`100%`) |
-| **In Progress** | 0 / 3 (`0%`) |
-| **Pending** | 0 / 3 (`0%`) |
+| **Total Plans** | **5 Plans** |
+| **Done** | 4 / 5 (`80%`) |
+| **In Progress** | 1 / 5 (`20%`) |
+| **Pending** | 0 / 5 (`0%`) |
 | **Current Execution Target** | **None** — next target is the ship gate below, which is still closed |
 | **Ship Gate** | 🔴 **CLOSED** — `composer lint` now passes with zero violations and PHP 7.4 compatibility is proven, but `composer test` has never run: no `mysqli`, no MySQL server, no `WP_TESTS_DIR` |
 | **System Readiness** | Plugin scaffolded end to end behind the Speedy API seam. Unverified against a real WordPress install, a real `dbDelta()` run, or a real cron tick. |
@@ -56,6 +56,8 @@ Dashed edge (`-.->`) = soft dependency, the work can proceed without it.
 | [**`0001-plugin-scaffold.md`**](./0001-plugin-scaffold.md) | Plugin scaffold and first end-to-end slice | `CRITICAL` | ✅ Done | `100%` | 🟡 Partial | 34 files `php -l` clean, `.pot` regenerated at 147 strings, PSR-4 cross-reference 25/25. Lint since verified green by checkpoint `0001.x`; PHPUnit still never run — ship gate open. No REST layer and no JS shipped, both deliberate deviations. |
 | [**`0002-plan-documentation-standard.md`**](./0002-plan-documentation-standard.md) | Standardise the `plans/` documentation format | `MEDIUM` | ✅ Done | `100%` | 🟢 Verified | Documentation only. Dashboard, dependency graph, tracker, legends, numbered template, `0001` backfill, `AGENTS.md` refresh. No PHP touched, so the ship gate is unaffected. |
 | [**`0001.x-lint-and-test-gate.md`**](./0001.x-lint-and-test-gate.md) | Lint and test gate checkpoint for `0001` | `CRITICAL` | ✅ Done | `100%` | 🟡 Partial | `composer lint` exits 0, all 305 findings cleared, PHP 7.4 floor proven. `composer test` blocked three ways (no `mysqli`, no MySQL, no test library), so the gate stays open. |
+| [**`0003-staging-zip-distribution.md`**](./0003-staging-zip-distribution.md) | Distribute a downloadable staging ZIP via a GitHub Release asset | `HIGH` | ✅ Done | `100%` | 🟡 Partial | ZIP built and structurally verified (44 entries, no dev files); blob hashes prove it came from `dev` not `main`. Release creation blocked: no `gh`, no token. No PHP touched, ship gate unaffected. |
+| [**`0004-reduce-database-work.md`**](./0004-reduce-database-work.md) | Remove duplicate `scans` reads, derive latest Web Vitals from the series, and read `information_schema` once per completing scan | `HIGH` | ◍ In Review / Verification | `90%` | 🟡 Partial | Code landed: memo on `ScanRepository`, guarded fallback in `Dashboard`, inventory forwarded to `metrics()`. 15 new tests across 3 files. Found and fixed a stale-memo bug in `delete_by_ids()`. 🗨`composer lint` and `composer test` not run - no PHP on this machine. |
 
 ---
 
@@ -64,6 +66,7 @@ Dashed edge (`-.->`) = soft dependency, the work can proceed without it.
 - [x] **0001** — Scaffold the plugin: bootstrap, schema + `dbDelta`, repositories, settings layer, scanner, Speedy API seam, admin screens, cron, i18n, lint/test config, `systems/` docs.
 - [x] **0002** — Adopt the reference plan structure: dashboard, dependency graph, master tracker, numbered template, `0001` backfill, `AGENTS.md` refresh.
 - [x] **0001.x** — Lint and test gate checkpoint for `0001`: install Composer, run `composer lint` (305 findings cleared, exit 0), prove the PHP 7.4 floor. `composer test` blocked and recorded.
+- [x] **0003** — Distribute a downloadable staging ZIP: build via `git archive` (honours `export-ignore`), verify structure and blob-hash provenance, publish as a GitHub pre-release asset. Release creation left to the operator: no `gh` and no token in this environment.
 - [ ] **Ship gate (still open)** — Install `mysqli` + MySQL/MariaDB and `WP_TESTS_DIR`, then run `composer test`; stand up WordPress, exercise `dbDelta()`, a full cron scan, resume across passes, and one scan against the real Speedy API shape. Carried as `0001.x` § 7.4 follow-ups 1-3.
 
 ---

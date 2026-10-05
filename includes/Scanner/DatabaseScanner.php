@@ -67,12 +67,18 @@ final class DatabaseScanner {
 	/**
 	 * Returns every database metric for a scan.
 	 *
+	 * @param array|null $inventory Pre-read table inventory from the scan pass,
+	 *                              or null to read it here. Passing it avoids a
+	 *                              second information_schema sweep per scan.
 	 * @return array Map of metric key to integer value.
 	 */
-	public function metrics() {
+	public function metrics( $inventory = null ) {
 		$metrics = array();
 
-		$inventory = $this->table_inventory();
+		if ( ! is_array( $inventory ) ) {
+			$inventory = $this->table_inventory();
+		}
+
 		$total     = 0;
 
 		foreach ( $inventory as $data ) {
