@@ -58,6 +58,7 @@ Dashed edge (`-.->`) = soft dependency, the work can proceed without it.
 | [**`0001.x-lint-and-test-gate.md`**](./0001.x-lint-and-test-gate.md) | Lint and test gate checkpoint for `0001` | `CRITICAL` | ✅ Done | `100%` | 🟡 Partial | `composer lint` exits 0, all 305 findings cleared, PHP 7.4 floor proven. `composer test` blocked three ways (no `mysqli`, no MySQL, no test library), so the gate stays open. |
 | [**`0003-staging-zip-distribution.md`**](./0003-staging-zip-distribution.md) | Distribute a downloadable staging ZIP via a GitHub Release asset | `HIGH` | ✅ Done | `100%` | 🟡 Partial | ZIP built and structurally verified (44 entries, no dev files); blob hashes prove it came from `dev` not `main`. Release creation blocked: no `gh`, no token. No PHP touched, ship gate unaffected. |
 | [**`0004-reduce-database-work.md`**](./0004-reduce-database-work.md) | Remove duplicate `scans` reads, derive latest Web Vitals from the series, and read `information_schema` once per completing scan | `HIGH` | ◍ In Review / Verification | `90%` | 🟡 Partial | Code landed: memo on `ScanRepository`, guarded fallback in `Dashboard`, inventory forwarded to `metrics()`. 15 new tests across 3 files. Found and fixed a stale-memo bug in `delete_by_ids()`. 🗨`composer lint` and `composer test` not run - no PHP on this machine. |
+| [**`0005-fix-activation-fatal.md`**](./0005-fix-activation-fatal.md) | Fix the activation fatal caused by the autoloader rejecting every namespaced class | `CRITICAL` | ◍ In Review / Verification | `90%` | 🟡 Partial | Traversal guard rejected `'\\'`, i.e. the PSR-4 separator, so 25 of 26 classes never loaded and activation died on `Activator` not found. Guard narrowed to `.` and `/`; `AutoloaderTest` added. 🗨`composer lint` and `composer test` not run - no PHP on this machine. |
 
 ---
 
@@ -67,6 +68,7 @@ Dashed edge (`-.->`) = soft dependency, the work can proceed without it.
 - [x] **0002** — Adopt the reference plan structure: dashboard, dependency graph, master tracker, numbered template, `0001` backfill, `AGENTS.md` refresh.
 - [x] **0001.x** — Lint and test gate checkpoint for `0001`: install Composer, run `composer lint` (305 findings cleared, exit 0), prove the PHP 7.4 floor. `composer test` blocked and recorded.
 - [x] **0003** — Distribute a downloadable staging ZIP: build via `git archive` (honours `export-ignore`), verify structure and blob-hash provenance, publish as a GitHub pre-release asset. Release creation left to the operator: no `gh` and no token in this environment.
+- [ ] **0005** — Fix the activation fatal: the autoloader's traversal guard rejected backslashes, unloading every namespaced class. Guard corrected, `AutoloaderTest` added, tests still unrun.
 - [ ] **Ship gate (still open)** — Install `mysqli` + MySQL/MariaDB and `WP_TESTS_DIR`, then run `composer test`; stand up WordPress, exercise `dbDelta()`, a full cron scan, resume across passes, and one scan against the real Speedy API shape. Carried as `0001.x` § 7.4 follow-ups 1-3.
 
 ---
