@@ -29,7 +29,7 @@ spl_autoload_register(
 
 		// A PSR-4 name never contains a dot or a forward slash. Rejecting them
 		// here stops a malformed class name from traversing out of includes/.
-		if ( false !== strpos( $relative, '.' ) || false !== strpos( $relative, '/' ) || false !== strpos( $relative, '\\' ) ) {
+		if ( false !== strpos( $relative, '.' ) || false !== strpos( $relative, '/' ) ) {
 			return;
 		}
 
